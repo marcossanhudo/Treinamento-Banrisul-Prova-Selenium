@@ -3,6 +3,7 @@ package Validations;
 import Framework.Browser.Waits;
 import Framework.Report.Report;
 import Framework.Report.Screenshot;
+import Framework.Utils.FileOperation;
 import PageObjects.LoginPage;
 
 import org.junit.jupiter.api.Assertions;
@@ -22,13 +23,28 @@ public class LoginValidation {
 	}
 	
 	public void validateAcessarButton() {
-		wait.loadElement(loginPage.getAcessarButton());
 		try {
+			wait.loadElement(loginPage.getAcessarButton());
 			Assertions.assertTrue(loginPage.getAcessarButton().isDisplayed());
 			Report.log(Status.PASS, "Foi encontrado, com sucesso, o formulário de login.");
 			Report.log(Status.INFO, "Foi encontrado o botão \"Acessar\".", Screenshot.captureFile(driver));
 		} catch (Exception e) {
-			Report.log(Status.FAIL, "Não foi possível encontrar o botão \"Acessar\". " + e.getMessage(), Screenshot.captureFile(driver));
+			Report.log(Status.FAIL, "Não foi encontrado o botão \"Acessar\". " + e.getMessage(), Screenshot.captureFile(driver));
+		}
+	}
+
+	public void validateFormularioPreenchido(String idDoUsuario) {
+		try {
+			wait.loadElement(loginPage.getEmailInput());
+			Assertions.assertEquals(
+					loginPage.getEmailInput().getAttribute("value"),
+					FileOperation.getProperty("user", idDoUsuario + ".email"));
+			Assertions.assertEquals(
+					loginPage.getSenhaInput().getAttribute("value"),
+					FileOperation.getProperty("user", idDoUsuario + ".senha"));
+			Report.log(Status.PASS, "Foi preenchido corretamente o formulário de login.", Screenshot.captureFile(driver));
+		} catch (Exception e) {
+			Report.log(Status.FAIL, "Não foi preenchido corretamente o formulário de login. " + e.getMessage(), Screenshot.captureFile(driver));
 		}
 	}
 	

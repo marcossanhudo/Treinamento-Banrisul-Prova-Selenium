@@ -15,7 +15,7 @@ public class CadastroTask {
 	private LoginPage loginPage;
 	private CadastroValidation cadastroValidation;
 	private LoginValidation loginValidation;
-	private GenericPage genericModal;
+	private GenericPage genericPage;
 	
 	public CadastroTask(WebDriver driver) {
 		this.driver = driver;
@@ -23,37 +23,36 @@ public class CadastroTask {
 		loginPage = new LoginPage(this.driver);
 		cadastroValidation = new CadastroValidation(this.driver);
 		loginValidation = new LoginValidation(this.driver);
-		genericModal = new GenericPage(this.driver);
+		genericPage = new GenericPage(this.driver);
 	}
 	
 	public void cadastrarConta(String idDoUsuario) {
 		loginValidation.validateAcessarButton();
 		loginPage.getRegistrarButton().click();
 		
-		
 		cadastroValidation.validateEmailInput();
+		removerEntradasDoFormulario();
 		
-		cadastroPage.getEmailInput().clear();
 		cadastroPage.getEmailInput().sendKeys(FileOperation.getProperty("user", idDoUsuario + ".email"));
-		
-		cadastroPage.getNomeInput().clear();
 		cadastroPage.getNomeInput().sendKeys(FileOperation.getProperty("user", idDoUsuario + ".nome"));
-		
-		cadastroPage.getSenhaInput().clear();
 		cadastroPage.getSenhaInput().sendKeys(FileOperation.getProperty("user", idDoUsuario + ".senha"));
-		
-		cadastroPage.getConfirmacaoSenhaInput().clear();
 		cadastroPage.getConfirmacaoSenhaInput().sendKeys(cadastroPage.getSenhaInput().getAttribute("value"));
-		
 		cadastroPage.getCriarContaComSaldoToggle().click();
-		
+		cadastroValidation.validateFormularioPreenchido(idDoUsuario);
 		
 		cadastroValidation.validateCadastrarButton();
 		cadastroPage.getCadastrarButton().click();
 		
 		cadastroValidation.validateCadastroComSucesso();
 		FileOperation.setProperty("user", idDoUsuario + ".numeroDaConta", cadastroPage.extrairNumeroDaContaNoModal());
-		genericModal.getFecharModalButton().click();
+		genericPage.getFecharModalButton().click();
+	}
+	
+	public void removerEntradasDoFormulario() {
+		cadastroPage.getEmailInput().clear();
+		cadastroPage.getNomeInput().clear();
+		cadastroPage.getSenhaInput().clear();
+		cadastroPage.getConfirmacaoSenhaInput().clear();
 	}
 	
 }

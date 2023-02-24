@@ -26,8 +26,8 @@ public class ExtratoValidation {
 	}
 	
 	public void validateSaldoParagraph() {
-		wait.visibilityOfElement(By.id("textBalanceAvailable"));
 		try {
+			wait.visibilityOfElement(By.id("textBalanceAvailable"));
 			Assertions.assertTrue(extratoPage.getSaldoParagraph().isDisplayed());
 			Report.log(Status.PASS, "A página \"EXTRATO\" foi acessada com sucesso.");
 			Report.log(Status.INFO, "Foi encontrado o parágrafo que indica o saldo.", Screenshot.captureFile(driver));
@@ -37,8 +37,8 @@ public class ExtratoValidation {
 	}
 	
 	public void validateExtratoAtual(String idDoUsuario) {
-		wait.visibilityOfElement(By.id("textBalanceAvailable"));
 		try {
+			wait.visibilityOfElement(By.id("textBalanceAvailable"));
 			Assertions.assertEquals(
 					extratoPage.getSaldo(),
 					Double.parseDouble(FileOperation.getProperty("user", idDoUsuario + ".saldo")));
@@ -49,8 +49,8 @@ public class ExtratoValidation {
 	}
 	
 	public void validateValorDaPrimeiraTransacao(double valor) {
-		String paragraph = wait.loadElement(extratoPage.getValorDaPrimeiraTransacaoParagraph()).getText();
 		try {
+			String paragraph = wait.loadElement(extratoPage.getValorDaPrimeiraTransacaoParagraph()).getText();
 			if (paragraph.substring(0, 1).equals("-"))
 				paragraph = paragraph.substring(1);
 			Assertions.assertEquals(
@@ -63,8 +63,8 @@ public class ExtratoValidation {
 	}
 	
 	public void validateDescricaoDaPrimeiraTransacao(String descricao) {
-		wait.loadElement(extratoPage.getDescricaoDaPrimeiraTransacaoParagraph());
 		try {
+			wait.loadElement(extratoPage.getDescricaoDaPrimeiraTransacaoParagraph());
 			Assertions.assertEquals(
 					descricao,
 					extratoPage.getDescricaoDaPrimeiraTransacaoParagraph().getText());

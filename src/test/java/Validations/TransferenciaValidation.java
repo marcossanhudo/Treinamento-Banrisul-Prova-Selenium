@@ -23,9 +23,9 @@ public class TransferenciaValidation {
 	}
 	
 	public void validateTransferirAgoraButton() {
-		//wait.loadElement(transferenciaPage.getTransferirAgoraButton());
-		wait.visibilityOfElement(By.xpath("//button[@type='submit']"));
 		try {
+			//wait.loadElement(transferenciaPage.getTransferirAgoraButton());
+			wait.visibilityOfElement(By.xpath("//button[@type='submit']"));
 			Assertions.assertTrue(transferenciaPage.getTransferirAgoraButton().isDisplayed());
 			Report.log(Status.PASS, "A página \"TRANSFERÊNCIA\" foi acessada com sucesso.");
 			Report.log(Status.INFO, "Foi encontrado o botão \"Transferir agora\".", Screenshot.captureFile(driver));
@@ -35,8 +35,8 @@ public class TransferenciaValidation {
 	}
 	
 	public void validateTransferenciaRealizadaModal() {
-		wait.loadElement(transferenciaPage.getModal());
 		try {
+			wait.loadElement(transferenciaPage.getModal());
 			Assertions.assertEquals(
 					transferenciaPage.getModalTextParagraph().getText(),
 					"Transferencia realizada com sucesso");

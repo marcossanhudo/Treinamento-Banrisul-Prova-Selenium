@@ -15,14 +15,12 @@ public class ExtratoTask {
 	private ExtratoPage extratoPage;
 	private ExtratoValidation extratoValidation;
 	private HomePage homePage;
-	private HomeValidation homeValidation;
 	
 	public ExtratoTask(WebDriver driver) {
 		this.driver = driver;
 		extratoPage = new ExtratoPage(this.driver);
 		extratoValidation = new ExtratoValidation(this.driver);
 		homePage = new HomePage(this.driver);
-		homeValidation = new HomeValidation(this.driver);
 	}
 	
 	public void verificarSaldoInicialEFazerLogout(String idDoUsuario) {

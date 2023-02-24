@@ -22,8 +22,8 @@ public class GenericValidation {
 	}
 	
 	public void validateModal() {
-		wait.loadElement(genericPage.getModal());
 		try {
+			wait.loadElement(genericPage.getModal());
 			Assertions.assertTrue(genericPage.getModal().isDisplayed());
 			Report.log(Status.PASS, "Foi encontrado o modal esperado.", Screenshot.captureFile(driver));
 		} catch (Exception e) {

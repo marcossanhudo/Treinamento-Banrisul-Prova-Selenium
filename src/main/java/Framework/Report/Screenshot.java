@@ -25,7 +25,7 @@ public class Screenshot {
 		try {
 			CreateFolder.createReportFolder(SCREENSHOTS_FOLDER_PATH);
 			File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-			String screenshotPath = SCREENSHOTS_FOLDER_PATH + File.separator + "Image_" + DateTime.getReportScreenshotDateTimeFormat(); 
+			String screenshotPath = SCREENSHOTS_FOLDER_PATH + File.separator + "Image_" + DateTime.getReportScreenshotDateTimeFormat() + ".png"; 
 			FileUtils.copyFile(screenshot, new File(screenshotPath));
 			return MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath).build();
 		} catch (Exception e) {

@@ -23,8 +23,8 @@ public class HomeValidation {
 	}
 	
 	public void validateNumeroDaContaSpan(String idDoUsuario) {
-		wait.visibilityOfElement(By.xpath("//p[@id='textAccountNumber']/span"));
 		try {
+			wait.visibilityOfElement(By.xpath("//p[@id='textAccountNumber']/span"));
 			Assertions.assertEquals(
 					FileOperation.getProperty("user", idDoUsuario + ".numeroDaConta"),
 					homePage.getNumeroDaContaSpan().getText());

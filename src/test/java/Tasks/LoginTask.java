@@ -25,8 +25,9 @@ public class LoginTask {
 		
 		loginPage.getEmailInput().sendKeys(FileOperation.getProperty("user", idDoUsuario + ".email"));
 		loginPage.getSenhaInput().sendKeys(FileOperation.getProperty("user", idDoUsuario + ".senha"));
-		loginPage.getAcessarButton().click();
+		loginValidation.validateFormularioPreenchido(idDoUsuario);
 		
+		loginPage.getAcessarButton().click();
 		homeValidation.validateNumeroDaContaSpan(idDoUsuario);
 	}
 	
