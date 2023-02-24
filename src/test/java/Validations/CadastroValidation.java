@@ -15,13 +15,13 @@ public class CadastroValidation {
 	private WebDriver driver;
 	private CadastroPage cadastroPage;
 	private Waits wait;
-	private GenericPage genericModal;
+	private GenericPage genericPage;
 	
 	public CadastroValidation(WebDriver driver) {
 		this.driver = driver;
 		cadastroPage = new CadastroPage(this.driver);
 		wait = new Waits(this.driver);
-		genericModal = new GenericPage(this.driver);
+		genericPage = new GenericPage(this.driver);
 	}
 	
 	public void validateCadastrarButton() {
@@ -46,7 +46,7 @@ public class CadastroValidation {
 	}
 	
 	public void validateCadastroComSucesso() {
-		wait.loadElement(genericModal.getModal());
+		wait.loadElement(genericPage.getModal());
 		try {
 			Assertions.assertNotNull(cadastroPage.extrairNumeroDaContaNoModal());
 			Report.log(Status.PASS, "Foi criada, com sucesso, a conta de número " + cadastroPage.extrairNumeroDaContaNoModal() + ".", Screenshot.captureFile(driver));

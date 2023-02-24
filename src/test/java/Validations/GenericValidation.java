@@ -9,13 +9,13 @@ import Framework.Report.Screenshot;
 
 import com.aventstack.extentreports.Status;
 
-public class GenericPageValidation {
+public class GenericValidation {
 
 	private WebDriver driver;
 	private GenericPage genericPage;
 	private Waits wait;
 	
-	public GenericPageValidation(WebDriver driver) {
+	public GenericValidation(WebDriver driver) {
 		this.driver = driver;
 		genericPage = new GenericPage(this.driver);
 		wait = new Waits(this.driver);

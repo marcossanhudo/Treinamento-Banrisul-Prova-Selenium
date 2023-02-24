@@ -26,7 +26,6 @@ public class ExtratoValidation {
 	}
 	
 	public void validateSaldoParagraph() {
-		//wait.loadElement(extratoPage.getSaldoParagraph());
 		wait.visibilityOfElement(By.id("textBalanceAvailable"));
 		try {
 			Assertions.assertTrue(extratoPage.getSaldoParagraph().isDisplayed());
@@ -51,9 +50,9 @@ public class ExtratoValidation {
 	
 	public void validateValorDaPrimeiraTransacao(double valor) {
 		String paragraph = wait.loadElement(extratoPage.getValorDaPrimeiraTransacaoParagraph()).getText();
-		if (paragraph.substring(0, 1).equals("-"))
-			paragraph = paragraph.substring(1);
 		try {
+			if (paragraph.substring(0, 1).equals("-"))
+				paragraph = paragraph.substring(1);
 			Assertions.assertEquals(
 					valor,
 					NumberFormatter.brazilianToJavaDouble(paragraph));

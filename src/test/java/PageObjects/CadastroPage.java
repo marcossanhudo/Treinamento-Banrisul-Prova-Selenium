@@ -10,11 +10,11 @@ public class CadastroPage {
 
 	private WebDriver driver;
 	private final String FORM_XPATH_PREFIX = "//div[@class='card__register']/form/div/";
-	private GenericPage genericModal;
+	private GenericPage genericPage;
 	
 	public CadastroPage(WebDriver driver) {
 		this.driver = driver;
-		genericModal = new GenericPage(this.driver);
+		genericPage = new GenericPage(this.driver);
 	}
 	
 	public WebElement getEmailInput() {
@@ -42,7 +42,7 @@ public class CadastroPage {
 	}
 	
 	public String extrairNumeroDaContaNoModal() {
-		String textoDeModalText = genericModal.getModalTextParagraph().getText();
+		String textoDeModalText = genericPage.getModalTextParagraph().getText();
 		String possivelNumero = textoDeModalText.split(" ")[2];
 		
 		Matcher matcher = Pattern.compile("[0-9]?[0-9]{2}-[0-9]").matcher(possivelNumero);

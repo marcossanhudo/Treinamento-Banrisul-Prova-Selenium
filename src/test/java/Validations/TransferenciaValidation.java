@@ -15,16 +15,15 @@ public class TransferenciaValidation {
 	private WebDriver driver;
 	private TransferenciaPage transferenciaPage;
 	private Waits wait;
-	private GenericPage genericModal;
 	
 	public TransferenciaValidation(WebDriver driver) {
 		this.driver = driver;
 		transferenciaPage = new TransferenciaPage(this.driver);
 		wait = new Waits(this.driver);
-		genericModal = new GenericPage(this.driver);
 	}
 	
 	public void validateTransferirAgoraButton() {
+		//wait.loadElement(transferenciaPage.getTransferirAgoraButton());
 		wait.visibilityOfElement(By.xpath("//button[@type='submit']"));
 		try {
 			Assertions.assertTrue(transferenciaPage.getTransferirAgoraButton().isDisplayed());
@@ -36,10 +35,10 @@ public class TransferenciaValidation {
 	}
 	
 	public void validateTransferenciaRealizadaModal() {
-		wait.loadElement(genericModal.getModal());
+		wait.loadElement(transferenciaPage.getModal());
 		try {
 			Assertions.assertEquals(
-					genericModal.getModalTextParagraph().getText(),
+					transferenciaPage.getModalTextParagraph().getText(),
 					"Transferencia realizada com sucesso");
 			Report.log(Status.PASS, "A transferência foi realizada com sucesso", Screenshot.captureFile(driver));
 		} catch (Exception e) {

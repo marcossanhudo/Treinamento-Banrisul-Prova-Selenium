@@ -22,8 +22,8 @@ public class LoginValidation {
 	}
 	
 	public void validateAcessarButton() {
+		wait.loadElement(loginPage.getAcessarButton());
 		try {
-			wait.loadElement(loginPage.getAcessarButton());
 			Assertions.assertTrue(loginPage.getAcessarButton().isDisplayed());
 			Report.log(Status.PASS, "Foi encontrado, com sucesso, o formulário de login.");
 			Report.log(Status.INFO, "Foi encontrado o botão \"Acessar\".", Screenshot.captureFile(driver));
