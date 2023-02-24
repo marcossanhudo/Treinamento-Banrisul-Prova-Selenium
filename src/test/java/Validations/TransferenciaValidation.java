@@ -28,9 +28,10 @@ public class TransferenciaValidation {
 		wait.visibilityOfElement(By.xpath("//button[@type='submit']"));
 		try {
 			Assertions.assertTrue(transferenciaPage.getTransferirAgoraButton().isDisplayed());
-			Report.log(Status.PASS, "Foi encontrado o botão 'Transferir agora'.", Screenshot.captureFile(driver));
+			Report.log(Status.PASS, "A página \"TRANSFERÊNCIA\" foi acessada com sucesso.");
+			Report.log(Status.INFO, "Foi encontrado o botão \"Transferir agora\".", Screenshot.captureFile(driver));
 		} catch (Exception e) {
-			Report.log(Status.FAIL, "Não foi encontrado o botão 'Transferir agora'. " + e.getMessage(), Screenshot.captureFile(driver));
+			Report.log(Status.FAIL, "Não foi encontrado o botão \"Transferir agora\". " + e.getMessage(), Screenshot.captureFile(driver));
 		}
 	}
 	

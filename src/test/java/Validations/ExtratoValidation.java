@@ -10,6 +10,7 @@ import Framework.Browser.Waits;
 import Framework.Report.Report;
 import Framework.Report.Screenshot;
 import Framework.Utils.FileOperation;
+import Framework.Utils.NumberFormatter;
 import PageObjects.ExtratoPage;
 
 public class ExtratoValidation {
@@ -24,15 +25,53 @@ public class ExtratoValidation {
 		wait = new Waits(this.driver);
 	}
 	
+	public void validateSaldoParagraph() {
+		//wait.loadElement(extratoPage.getSaldoParagraph());
+		wait.visibilityOfElement(By.id("textBalanceAvailable"));
+		try {
+			Assertions.assertTrue(extratoPage.getSaldoParagraph().isDisplayed());
+			Report.log(Status.PASS, "A página \"EXTRATO\" foi acessada com sucesso.");
+			Report.log(Status.INFO, "Foi encontrado o parágrafo que indica o saldo.", Screenshot.captureFile(driver));
+		} catch (Exception e) {
+			Report.log(Status.FAIL, "Não foi encontrado o parágrafo que indica o saldo. " + e.getMessage(), Screenshot.captureFile(driver));
+		}
+	}
+	
 	public void validateExtratoAtual(String idDoUsuario) {
 		wait.visibilityOfElement(By.id("textBalanceAvailable"));
 		try {
 			Assertions.assertEquals(
-					extratoPage.getBalance(),
+					extratoPage.getSaldo(),
 					Double.parseDouble(FileOperation.getProperty("user", idDoUsuario + ".saldo")));
-			Report.log(Status.PASS, "Saldo esperado para o usuário " + idDoUsuario + ": " + FileOperation.getProperty("user", idDoUsuario + ".saldo") + ".", Screenshot.captureFile(driver));
+			Report.log(Status.PASS, "Foi verificado o saldo esperado para o usuário " + idDoUsuario + ": " + FileOperation.getProperty("user", idDoUsuario + ".saldo") + ".", Screenshot.captureFile(driver));
 		} catch (Exception e) {
-			Report.log(Status.FAIL, "O saldo do usuário " + idDoUsuario + " não foi verificado. " + e.getMessage(), Screenshot.captureFile(driver));
+			Report.log(Status.FAIL, "Não foi verificado o saldo do usuário " + idDoUsuario + ". " + e.getMessage(), Screenshot.captureFile(driver));
+		}
+	}
+	
+	public void validateValorDaPrimeiraTransacao(double valor) {
+		String paragraph = wait.loadElement(extratoPage.getValorDaPrimeiraTransacaoParagraph()).getText();
+		if (paragraph.substring(0, 1).equals("-"))
+			paragraph = paragraph.substring(1);
+		try {
+			Assertions.assertEquals(
+					valor,
+					NumberFormatter.brazilianToJavaDouble(paragraph));
+			Report.log(Status.PASS, "Foi encontrado o valor esperado para a primeira transação: " + extratoPage.getValorDaPrimeiraTransacaoParagraph().getText() + ".", Screenshot.captureFile(driver));
+		} catch (Exception e) {
+			Report.log(Status.FAIL, "Não foi encontrado o valor esperado para a primeira transação: " + extratoPage.getValorDaPrimeiraTransacaoParagraph().getText() + ". " + e.getMessage(), Screenshot.captureFile(driver));
+		}
+	}
+	
+	public void validateDescricaoDaPrimeiraTransacao(String descricao) {
+		wait.loadElement(extratoPage.getDescricaoDaPrimeiraTransacaoParagraph());
+		try {
+			Assertions.assertEquals(
+					descricao,
+					extratoPage.getDescricaoDaPrimeiraTransacaoParagraph().getText());
+			Report.log(Status.PASS, "Foi encontrada a descrição esperada para a primeira transação: \"" + extratoPage.getDescricaoDaPrimeiraTransacaoParagraph().getText() + "\".", Screenshot.captureFile(driver));
+		} catch (Exception e) {
+			Report.log(Status.FAIL, "Não foi encontrada a descrição esperada para a primeira transação: \"" + extratoPage.getDescricaoDaPrimeiraTransacaoParagraph().getText() + "\". " + e.getMessage(), Screenshot.captureFile(driver));
 		}
 	}
 	

@@ -38,7 +38,8 @@ public class CadastroValidation {
 		wait.loadElement(cadastroPage.getEmailInput());
 		try {
 			Assertions.assertTrue(cadastroPage.getEmailInput().isDisplayed());
-			Report.log(Status.PASS, "Foi encontrado, no campo de cadastro, o campo de entrada de email.", Screenshot.captureFile(driver));
+			Report.log(Status.PASS, "Foi encontrado, com sucesso, o formulário de cadastro.");
+			Report.log(Status.INFO, "Foi encontrado, no campo de cadastro, o campo de entrada de email.", Screenshot.captureFile(driver));
 		} catch (Exception e) {
 			Report.log(Status.FAIL, "Não foi encontrado o campo de entrada de email para cadastro. " + e.getMessage(), Screenshot.captureFile(driver));
 		}
@@ -48,7 +49,7 @@ public class CadastroValidation {
 		wait.loadElement(genericModal.getModal());
 		try {
 			Assertions.assertNotNull(cadastroPage.extrairNumeroDaContaNoModal());
-			Report.log(Status.PASS, "Criou, com sucesso, conta de número " + cadastroPage.extrairNumeroDaContaNoModal() + ".", Screenshot.captureFile(driver));
+			Report.log(Status.PASS, "Foi criada, com sucesso, a conta de número " + cadastroPage.extrairNumeroDaContaNoModal() + ".", Screenshot.captureFile(driver));
 		} catch (Exception e) {
 			Report.log(Status.FAIL, "Não houve sucesso em criar uma nova conta. " + e.getMessage(), Screenshot.captureFile(driver));
 		}

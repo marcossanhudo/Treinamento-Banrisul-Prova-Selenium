@@ -9,7 +9,7 @@ import Validations.HomeValidation;
 import PageObjects.ExtratoPage;
 import PageObjects.GenericPage;
 import Validations.ExtratoValidation;
-import Validations.GenericModalValidation;
+import Validations.GenericPageValidation;
 
 public class TransferenciaTask {
 
@@ -18,7 +18,7 @@ public class TransferenciaTask {
 	private TransferenciaValidation transferenciaValidation;
 	private HomePage homePage;
 	private HomeValidation homeValidation;
-	private GenericModalValidation genericPageModalValidation;
+	private GenericPageValidation genericPageModalValidation;
 	private ExtratoPage extratoPage;
 	private ExtratoValidation extratoValidation;
 	
@@ -28,7 +28,7 @@ public class TransferenciaTask {
 		transferenciaValidation = new TransferenciaValidation(this.driver);
 		homePage = new HomePage(this.driver);
 		homeValidation = new HomeValidation(this.driver);
-		genericPageModalValidation = new GenericModalValidation(this.driver);
+		genericPageModalValidation = new GenericPageValidation(this.driver);
 		extratoPage = new ExtratoPage(this.driver);
 		extratoValidation = new ExtratoValidation(this.driver);
 	}
@@ -38,27 +38,39 @@ public class TransferenciaTask {
 		homePage.getTransferenciaButton().click();
 		transferenciaValidation.validateTransferirAgoraButton();
 		
+		preencherDetalhes(idDoUsuarioRecipiente, valor);
+		transferirValor(idDoUsuarioEnviante, valor, idDoUsuarioRecipiente);
+		transferenciaValidation.validateTransferenciaRealizadaModal();
+		transferenciaPage.getFecharModalButton().click();
+		
+		transferenciaPage.getVoltarLink().click();
+	}
+	
+	public void verificarRecebimento(String idDoUsuarioEnviante, String valor, String idDoUsuarioRecipiente) {
+		homeValidation.validateNumeroDaContaSpan(idDoUsuarioRecipiente);
+		homePage.getExtratoButton().click();
+		extratoValidation.validateExtratoAtual(idDoUsuarioRecipiente);
+		extratoPage.getSairButton().click();
+	}
+	
+	public void preencherDetalhes(String idDoUsuarioRecipiente, String valor) {
 		String[] contaDoUsuarioRecipiente = FileOperation.getProperty("user", idDoUsuarioRecipiente + ".numeroDaConta").split("-");
 		transferenciaPage.getNumeroDaContaInput().sendKeys(contaDoUsuarioRecipiente[0]);
 		transferenciaPage.getDigitoInput().sendKeys(contaDoUsuarioRecipiente[1]);
 		transferenciaPage.getValorDaTransferenciaInput().sendKeys(valor);
 		transferenciaPage.getDescricaoInput().sendKeys("Teste de transferência");
-		
-		transferenciaPage.getTransferirAgoraButton().click();
-		transferenciaValidation.validateTransferenciaRealizadaModal();
-		transferenciaPage.getFecharModalButton().click();
-		
-		transferenciaPage.getVoltarLink().click();
-		homePage.getExtratoButton().click();
-		extratoValidation.validateExtratoAtual(idDoUsuarioEnviante);
-		extratoPage.getSairButton().click();
 	}
 	
-	public void verificarRecebimento(String idDoUsuarioRecipiente, String valor, String idDoUsuarioEnviante) {
-		homeValidation.validateNumeroDaContaSpan(idDoUsuarioRecipiente);
-		homePage.getExtratoButton().click();
-		extratoValidation.validateExtratoAtual(idDoUsuarioRecipiente);
-		extratoPage.getSairButton().click();
+	public void transferirValor(String idDoUsuarioEnviante, String valor, String idDoUsuarioRecipiente) {
+		transferenciaPage.getTransferirAgoraButton().click();
+		Double valorEmDouble = Double.parseDouble(valor);
+		
+		Double saldoAtualDoUsuario = Double.parseDouble(FileOperation.getProperty("user", idDoUsuarioEnviante + ".saldo"));
+		FileOperation.setProperty("user", idDoUsuarioEnviante + ".saldo", "" + (saldoAtualDoUsuario - valorEmDouble));
+		
+		saldoAtualDoUsuario = Double.parseDouble(FileOperation.getProperty("user", idDoUsuarioRecipiente + ".saldo"));
+		FileOperation.setProperty("user", idDoUsuarioRecipiente + ".saldo", "" + (saldoAtualDoUsuario + valorEmDouble));
+		
 	}
 	
 }

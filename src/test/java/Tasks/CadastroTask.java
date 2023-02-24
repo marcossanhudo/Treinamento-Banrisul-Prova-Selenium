@@ -52,7 +52,7 @@ public class CadastroTask {
 		cadastroPage.getCadastrarButton().click();
 		
 		cadastroValidation.validateCadastroComSucesso();
-		FileOperation.setProperties("user", idDoUsuario + ".numeroDaConta", cadastroPage.extrairNumeroDaContaNoModal());
+		FileOperation.setProperty("user", idDoUsuario + ".numeroDaConta", cadastroPage.extrairNumeroDaContaNoModal());
 		genericModal.getFecharModalButton().click();
 	}
 	

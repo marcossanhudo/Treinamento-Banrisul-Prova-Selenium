@@ -28,7 +28,8 @@ public class HomeValidation {
 			Assertions.assertEquals(
 					FileOperation.getProperty("user", idDoUsuario + ".numeroDaConta"),
 					homePage.getNumeroDaContaSpan().getText());
-			Report.log(Status.PASS, "Foi encontrado o número " + homePage.getNumeroDaContaSpan().getText() + ", esperado da conta do usuário.", Screenshot.captureFile(driver));
+			Report.log(Status.PASS, "Foi acessada, com sucesso, a conta correta, a de número " + homePage.getNumeroDaContaSpan().getText() + ".");
+			Report.log(Status.INFO, "Foi encontrado o número " + homePage.getNumeroDaContaSpan().getText() + ", esperado da conta do usuário.", Screenshot.captureFile(driver));
 		} catch (Exception e) {
 			Report.log(Status.FAIL, "Não foi encontrado o número esperado de conta. " + e.getMessage(), Screenshot.captureFile(driver));
 		}

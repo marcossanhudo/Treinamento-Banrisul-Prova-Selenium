@@ -13,7 +13,7 @@ public class FileOperation {
 	private static final String PROPERTIES_FOLDER_PATH =
 		System.getProperty("user.dir") + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "Properties" + File.separator;
 
-	public static void setProperties(String fileName, String propKey, String propValue) {
+	public static void setProperty(String fileName, String propKey, String propValue) {
 		//OutputStream outputStream = null;
 		Properties props = getPropertiesFile(fileName);
 		
